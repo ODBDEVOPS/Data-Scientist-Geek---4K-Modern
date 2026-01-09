@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Scientist Portal - 4K Modern</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== VARIABLES CSS MODERNES ===== */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --accent-color: #06b6d4;
+            --dark-bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.8);
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --gradient-primary: linear-gradient(135deg, #2563eb, #7c3aed, #06b6d4);
+            --gradient-dark: linear-gradient(135deg, #0f172a, #1e293b);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.5);
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.3);
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --border-radius: 12px;
+            --sidebar-width: 280px;
+            --sidebar-collapsed: 80px;
+            --navbar-height: 70px;
+        }
+
+        /* ===== RESET ET STYLES DE BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ===== EFFET DE FOND 4K DATA SCIENCE ===== */
+        #background-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: var(--gradient-dark);
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-color), transparent);
+            opacity: 0.7;
+            animation: float 15s infinite linear;
+        }
+
+        .data-node {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 15px 5px var(--primary-color);
+        }
+
+        .connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        /* ===== NAVBAR PRINCIPALE AVEC 2 NIVEAUX ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--navbar-height);
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .navbar-logo {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .navbar-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            height: 100%;
+        }
+
+        .nav-item {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            height: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+            background: rgba(37, 99, 235, 0.2);
+        }
+
+        /* Premier niveau du menu déroulant */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 220px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition-normal);
+            z-index: 1001;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 0;
+        }
+
+        .nav-item:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            padding-left: 1.75rem;
+        }
+
+        .dropdown-item.has-children::after {
+            content: "›";
+            position: absolute;
+            right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* Deuxième niveau du menu déroulant */
+        .dropdown-submenu {
+            position: absolute;
+            left: 100%;
+            top: 0;
+            width: 220px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(10px);
+            transition: var(--transition-normal);
+            z-index: 1002;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 0;
+        }
+
+        .dropdown-item:hover .dropdown-submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        .navbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ===== SIDEBAR AVEC 2 NIVEAUX ===== */
+        .sidebar {
+            position: fixed;
+            top: var(--navbar-height);
+            left: 0;
+            width: var(--sidebar-width);
+            height: calc(100vh - var(--navbar-height));
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem 0;
+            overflow-y: auto;
+            transition: var(--transition-normal);
+            z-index: 999;
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed);
+        }
+
+        .sidebar-toggle {
+            position: absolute;
+            top: 1rem;
+            right: -12px;
+            width: 24px;
+            height: 24px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+            border: 2px solid var(--dark-bg);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0 1rem;
+        }
+
+        .sidebar-item {
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: var(--transition-fast);
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .sidebar-link.active {
+            background: rgba(37, 99, 235, 0.2);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .sidebar-icon {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-text {
+            white-space: nowrap;
+            overflow: hidden;
+            transition: var(--transition-normal);
+        }
+
+        .sidebar.collapsed .sidebar-text {
+            opacity: 0;
+            width: 0;
+        }
+
+        /* Premier niveau du menu sidebar */
+        .sidebar-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding-left: 1.5rem;
+        }
+
+        .sidebar-item.open .sidebar-dropdown {
+            max-height: 500px;
+        }
+
+        .sidebar-item.has-children > .sidebar-link::after {
+            content: "›";
+            margin-left: auto;
+            transform: rotate(90deg);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-item.open > .sidebar-link::after {
+            transform: rotate(270deg);
+        }
+
+        /* Deuxième niveau du menu sidebar */
+        .sidebar-sublink {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.7rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: var(--transition-fast);
+            font-size: 0.9rem;
+        }
+
+        .sidebar-sublink:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-primary);
+        }
+
+        .sidebar-sublink.active {
+            color: var(--accent-color);
+        }
+
+        /* ===== CONTENU PRINCIPAL ===== */
+        .main-content {
+            margin-top: var(--navbar-height);
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            min-height: calc(100vh - var(--navbar-height));
+            transition: var(--transition-normal);
+        }
+
+        .sidebar.collapsed ~ .main-content {
+            margin-left: var(--sidebar-collapsed);
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: var(--transition-normal);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .navbar-nav {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .navbar {
+                padding: 0 1rem;
+            }
+        }
+
+        /* ===== UTILITAIRES ===== */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 1rem 0;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-primary {
+            background: rgba(37, 99, 235, 0.2);
+            color: var(--primary-color);
+        }
+
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+        }
+
+        .sparkline {
+            height: 40px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Effet de fond 4K Data Science -->
+    <div id="background-effect"></div>
+
+    <!-- Navbar avec 2 niveaux de menu -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <div class="navbar-logo">
+                <i class="fas fa-brain"></i>
+            </div>
+            <h1 class="navbar-title">DataLab Pro</h1>
+        </div>
+
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#dashboard" class="nav-link active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </a>
+                <!-- Premier niveau menu déroulant -->
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Performance</span>
+                    </a>
+                    <a href="#" class="dropdown-item has-children">
+                        <i class="fas fa-database"></i>
+                        <span>Data Sources</span>
+                        <!-- Deuxième niveau menu déroulant -->
+                        <div class="dropdown-submenu">
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-cloud"></i>
+                                <span>Cloud Storage</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-server"></i>
+                                <span>Local Databases</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-stream"></i>
+                                <span>Real-time Streams</span>
+                            </a>
+                        </div>
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-cogs"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-robot"></i>
+                    <span>Models</span>
+                </a>
+                <!-- Premier niveau menu déroulant -->
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-project-diagram"></i>
+                        <span>Active Models</span>
+                    </a>
+                    <a href="#" class="dropdown-item has-children">
+                        <i class="fas fa-magic"></i>
+                        <span>Training</span>
+                        <!-- Deuxième niveau menu déroulant -->
+                        <div class="dropdown-submenu">
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-play-circle"></i>
+                                <span>Start Training</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-history"></i>
+                                <span>Training History</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Hyperparameters</span>
+                            </a>
+                        </div>
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-download"></i>
+                        <span>Deploy</span>
+                    </a>
+                </div>
+            </li>
+            
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Team</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="navbar-actions">
+            <button class="btn btn-outline">
+                <i class="fas fa-bell"></i>
+            </button>
+            <button class="btn btn-primary" id="newProjectBtn">
+                <i class="fas fa-plus"></i>
+                <span>New Project</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Sidebar avec 2 niveaux de menu -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-toggle" id="sidebarToggle">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li class="sidebar-item">
+                <a href="#dashboard" class="sidebar-link active">
+                    <i class="fas fa-tachometer-alt sidebar-icon"></i>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+            </li>
+            
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-database sidebar-icon"></i>
+                    <span class="sidebar-text">Data Management</span>
+                </a>
+                <!-- Premier niveau menu sidebar -->
+                <div class="sidebar-dropdown">
+                    <a href="#" class="sidebar-sublink">
+                        <i class="fas fa-upload"></i>
+                        <span>Data Import</span>
+                    </a>
+                    <a href="#" class="sidebar-sublink">
+                        <i class="fas fa-filter"></i>
+                        <span>Data Cleaning</span>
+                    </a>
+                    <a href="#" class="sidebar-sublink">
+                        <i class="fas fa-code-branch"></i>
+                        <span>Feature Engineering</span>
+                    </a>
+                </div>
+            </li>
+            
+            <li class="sidebar-item open">
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-project-diagram sidebar-icon"></i>
+                    <span class="sidebar-text">ML Projects</span>
+                    <span class="badge badge-success">3 Active</span>
+                </a>
+                <!-- Premier niveau menu sidebar -->
+                <div class="sidebar-dropdown">
+                    <a href="#" class="sidebar-sublink active">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Sales Forecasting</span>
+                    </a>
+                    <a href="#" class="sidebar-sublink">
+                        <i class="fas fa-robot"></i>
+                        <span>Customer Segmentation</span>
+                    </a>
+                    <a href="#" class="sidebar-sublink">
+                        <i class="fas fa-image"></i>
+                        <span>Image Recognition</span>
+                    </a>
+                </div>
+            </li>
+            
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-chart-pie sidebar-icon"></i>
+                    <span class="sidebar-text">Visualization</span>
+                </a>
+                <!-- Premier niveau menu sidebar -->
+                <div class="sidebar-dropdown">
+                    <a href="#" class="sidebar-sublink">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Charts & Graphs</span>
+                    </a>
+                    <a href="#" class="sidebar-sublink">
+                        <i class="fas fa-map"></i>
+                        <span>Geospatial Maps</span>
+                    </a>
+                    <a href="#" class="sidebar-sublink">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Real-time Dashboard</span>
+                    </a>
+                </div>
+            </li>
+            
+            <div class="divider"></div>
+            
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-cog sidebar-icon"></i>
+                    <span class="sidebar-text">Settings</span>
+                </a>
+            </li>
+            
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-question-circle sidebar-icon"></i>
+                    <span class="sidebar-text">Help & Support</span>
+                </a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Data Science Dashboard</h1>
+            <p class="page-subtitle">Advanced analytics, machine learning models and data visualization tools</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value">87%</div>
+                <div class="stat-label">Model Accuracy</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 87%"></div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">24.5K</div>
+                <div class="stat-label">Data Points</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 92%"></div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">15</div>
+                <div class="stat-label">Active Models</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 75%"></div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3.2s</div>
+                <div class="stat-label">Avg. Response Time</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 68%"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Model Performance</h3>
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Latest machine learning models show improved accuracy across all datasets. The neural network model achieved 94.3% accuracy in image classification tasks.</p>
+                    <div class="sparkline" id="performanceChart"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Data Pipeline</h3>
+                    <div class="card-icon">
+                        <i class="fas fa-stream"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <p>Real-time data ingestion is processing 2,500 records per second. Data quality score is at 98.7% with automated anomaly detection active.</p>
+                    <div class="sparkline" id="pipelineChart"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Recent Activity</h3>
+                    <div class="card-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+                            <i class="fas fa-check-circle" style="color: var(--success-color); margin-right: 0.5rem;"></i>
+                            Model training completed - Sales Forecast v3.2
+                        </li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+                            <i class="fas fa-upload" style="color: var(--accent-color); margin-right: 0.5rem;"></i>
+                            New dataset uploaded - Customer Behavior Q3
+                        </li>
+                        <li style="padding: 0.5rem 0;">
+                            <i class="fas fa-user-plus" style="color: var(--primary-color); margin-right: 0.5rem;"></i>
+                            New team member added - Data Engineer
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ===== INITIALISATION DE L'APPLICATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser l'effet de fond
+            initBackgroundEffect();
+            
+            // Initialiser les graphiques sparkline
+            initSparklineCharts();
+            
+            // Initialiser les interactions de la sidebar
+            initSidebar();
+            
+            // Initialiser les interactions de la navbar
+            initNavbar();
+            
+            // Initialiser les événements
+            initEvents();
+        });
+
+        // ===== EFFET DE FOND 4K DATA SCIENCE =====
+        function initBackgroundEffect() {
+            const container = document.getElementById('background-effect');
+            
+            // Créer des particules flottantes
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Taille aléatoire
+                const size = Math.random() * 100 + 50;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Position aléatoire
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Animation delay
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                
+                // Opacité aléatoire
+                particle.style.opacity = Math.random() * 0.4 + 0.3;
+                
+                container.appendChild(particle);
+            }
+            
+            // Créer des nœuds de données connectés
+            createDataNodes(container);
+        }
+
+        function createDataNodes(container) {
+            const nodeCount = 12;
+            const nodes = [];
+            
+            // Créer des nœuds
+            for (let i = 0; i < nodeCount; i++) {
+                const node = document.createElement('div');
+                node.classList.add('data-node');
+                
+                // Position aléatoire
+                const left = Math.random() * 90 + 5;
+                const top = Math.random() * 90 + 5;
+                
+                node.style.left = `${left}%`;
+                node.style.top = `${top}%`;
+                
+                // Animation de pulsation
+                node.style.animation = `pulse ${Math.random() * 5 + 3}s infinite`;
+                
+                container.appendChild(node);
+                nodes.push({element: node, x: left, y: top});
+            }
+            
+            // Connecter certains nœuds entre eux
+            for (let i = 0; i < nodeCount; i++) {
+                for (let j = i + 1; j < nodeCount; j++) {
+                    // Connecter avec une probabilité de 20%
+                    if (Math.random() < 0.2) {
+                        createConnection(container, nodes[i], nodes[j]);
+                    }
+                }
+            }
+        }
+
+        function createConnection(container, node1, node2) {
+            const connection = document.createElement('div');
+            connection.classList.add('connection');
+            
+            // Calculer la distance et l'angle entre les nœuds
+            const dx = node2.x - node1.x;
+            const dy = node2.y - node1.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            
+            // Positionner la connexion entre les deux nœuds
+            const left = node1.x + dx / 2;
+            const top = node1.y + dy / 2;
+            
+            connection.style.width = `${distance}%`;
+            connection.style.left = `${left}%`;
+            connection.style.top = `${top}%`;
+            connection.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+            connection.style.opacity = Math.random() * 0.3 + 0.1;
+            
+            container.appendChild(connection);
+        }
+
+        // ===== GRAPHIQUES SPARKLINE =====
+        function initSparklineCharts() {
+            // Graphique de performance
+            const perfChart = document.getElementById('performanceChart');
+            drawSparkline(perfChart, [30, 45, 60, 75, 85, 90, 87], '#06b6d4');
+            
+            // Graphique de pipeline
+            const pipelineChart = document.getElementById('pipelineChart');
+            drawSparkline(pipelineChart, [50, 70, 65, 80, 95, 98, 97], '#10b981');
+        }
+
+        function drawSparkline(container, data, color) {
+            // Créer un canvas pour le graphique
+            const canvas = document.createElement('canvas');
+            canvas.width = container.clientWidth;
+            canvas.height = container.clientHeight;
+            container.appendChild(canvas);
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Échelle des données
+            const max = Math.max(...data);
+            const min = Math.min(...data);
+            const range = max - min || 1;
+            
+            // Points du graphique
+            const points = data.map((value, index) => {
+                const x = (index / (data.length - 1)) * canvas.width;
+                const y = canvas.height - ((value - min) / range) * canvas.height;
+                return {x, y};
+            });
+            
+            // Dessiner la ligne
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            
+            for (let i = 1; i < points.length; i++) {
+                ctx.lineTo(points[i].x, points[i].y);
+            }
+            
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Dessiner la zone sous la courbe
+            ctx.lineTo(points[points.length - 1].x, canvas.height);
+            ctx.lineTo(points[0].x, canvas.height);
+            ctx.closePath();
+            
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, `${color}40`);
+            gradient.addColorStop(1, `${color}00`);
+            
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            // Dessiner les points
+            points.forEach(point => {
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = color;
+                ctx.fill();
+            });
+        }
+
+        // ===== SIDEBAR INTERACTIVE =====
+        function initSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            
+            // Toggle sidebar
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+                
+                // Changer l'icône
+                const icon = this.querySelector('i');
+                if (sidebar.classList.contains('collapsed')) {
+                    icon.classList.remove('fa-chevron-left');
+                    icon.classList.add('fa-chevron-right');
+                } else {
+                    icon.classList.remove('fa-chevron-right');
+                    icon.classList.add('fa-chevron-left');
+                }
+            });
+            
+            // Gestion des menus déroulants de la sidebar
+            sidebarItems.forEach(item => {
+                const link = item.querySelector('.sidebar-link');
+                
+                if (item.classList.contains('has-children')) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        item.classList.toggle('open');
+                    });
+                } else {
+                    link.addEventListener('click', function() {
+                        // Retirer la classe active de tous les liens
+                        document.querySelectorAll('.sidebar-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        
+                        // Ajouter la classe active au lien cliqué
+                        this.classList.add('active');
+                    });
+                }
+            });
+            
+            // Toggle mobile menu
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            mobileMenuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('open');
+            });
+        }
+
+        // ===== NAVBAR INTERACTIVE =====
+        function initNavbar() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Retirer la classe active de tous les liens
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    // Ajouter la classe active au lien cliqué
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        // ===== ÉVÉNEMENTS GLOBAUX =====
+        function initEvents() {
+            // Bouton "New Project"
+            const newProjectBtn = document.getElementById('newProjectBtn');
+            newProjectBtn.addEventListener('click', function() {
+                showNotification('New project wizard launched', 'success');
+            });
+            
+            // Gestion des clics en dehors des menus déroulants
+            document.addEventListener('click', function(e) {
+                // Fermer les menus déroulants si on clique ailleurs
+                if (!e.target.closest('.nav-item')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.style.opacity = '0';
+                        menu.style.visibility = 'hidden';
+                    });
+                }
+                
+                // Fermer la sidebar sur mobile si on clique en dehors
+                if (window.innerWidth <= 992) {
+                    const sidebar = document.getElementById('sidebar');
+                    const mobileToggle = document.getElementById('mobileMenuToggle');
+                    
+                    if (!e.target.closest('.sidebar') && !e.target.closest('.mobile-menu-toggle')) {
+                        sidebar.classList.remove('open');
+                    }
+                }
+            });
+            
+            // Mettre à jour les graphiques lors du redimensionnement
+            window.addEventListener('resize', function() {
+                // Recréer les graphiques sparkline
+                document.querySelectorAll('.sparkline').forEach(el => {
+                    el.innerHTML = '';
+                });
+                initSparklineCharts();
+            });
+        }
+
+        // ===== FONCTIONS UTILITAIRES =====
+        function showNotification(message, type = 'info') {
+            // Créer la notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${type === 'success' ? 'rgba(16, 185, 129, 0.9)' : 'rgba(30, 41, 59, 0.9)'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                backdrop-filter: blur(10px);
+                box-shadow: var(--shadow-lg);
+                z-index: 9999;
+                transform: translateX(120%);
+                transition: transform 0.3s ease;
+            `;
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Afficher la notification
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 10);
+            
+            // Masquer après 3 secondes
+            setTimeout(() => {
+                notification.style.transform = 'translateX(120%)';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
